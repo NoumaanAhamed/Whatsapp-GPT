@@ -1,6 +1,6 @@
 const qrcode = require('qrcode-terminal');
 const { Client } = require('whatsapp-web.js');
-const {OpenAI } = require("openai");
+const {OpenAI} = require("openai");
 require('dotenv').config();
 const client = new Client();
 
@@ -38,11 +38,10 @@ client.on('message', message => {
 });
 
 async function runCompletion(msg) {
-    const completion = await openai.chat.completions.create({
-      prompt:msg,
-      model: "gpt-3.5-turbo",
-      
+    const chatCompletion = await openai.chat.completions.create({
+      messages: [{ role: 'user', content:msg }],
+      model: 'gpt-3.5-turbo',
     });
-
-    return completion.data.choices[0].text;
-}
+  
+  return chatCompletion.choices[0].message.content;
+  }
